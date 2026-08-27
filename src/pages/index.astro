@@ -14,11 +14,11 @@ import Layout from '../layouts/Layout.astro';
 
   <!-- 5本の星を用意 -->
   <div class="star-container" aria-hidden="true">
-    <div class="shooting-star"></div>
-    <div class="shooting-star"></div>
-    <div class="shooting-star"></div>
-    <div class="shooting-star"></div>
-    <div class="shooting-star"></div>
+<img src="/star.png" class="shooting-star1" alt="" />
+<img src="/star.png" class="shooting-star2" alt="" />
+<img src="/star.png" class="shooting-star3" alt="" />
+<img src="/star.png" class="shooting-star4" alt="" />
+<img src="/star.png" class="shooting-star5" alt="" />
   </div>
 </Layout>
 
@@ -67,32 +67,26 @@ import Layout from '../layouts/Layout.astro';
 
   .shooting-star {
     position: absolute;
-    width: 120px;
-    height: 2px;
-    background: linear-gradient(90deg, rgba(255, 215, 0, 0), #ffd700);
-    filter: drop-shadow(0 0 6px #ff9800);
-    transform: rotate(-35deg);
+    width: 80px; /* ★星の大きさ */
+    height: auto;
     opacity: 0;
-    /* 1回だけ流れて最後は透明のまま停止（1 forwards） */
-    animation-name: meteor;
-    animation-timing-function: ease-out;
-    animation-iteration-count: 1;
-    animation-fill-mode: forwards;
+    /* 1回だけ流れて消えた状態で止まる設定 */
+    animation: meteor ease-out 1 forwards;
   }
 
-  /* 最初の1〜2秒の間に、5本がパラパラと流れて終わる設定 */
-  .shooting-star:nth-child(1) { top: 0%;  right: 10%; animation-delay: 0s;   animation-duration: 1.5s; }
-  .shooting-star:nth-child(2) { top: 10%; right: 30%; animation-delay: 0.3s; animation-duration: 1.8s; }
-  .shooting-star:nth-child(3) { top: 25%; right: 5%;  animation-delay: 0.6s; animation-duration: 1.4s; }
-  .shooting-star:nth-child(4) { top: 35%; right: 20%; animation-delay: 0.9s; animation-duration: 2.0s; }
-  .shooting-star:nth-child(5) { top: 50%; right: 35%; animation-delay: 0.4s; animation-duration: 1.6s; }
+  /* それぞれの流れる位置・遅延・スピード */
+  .star-1 { top: 0%;  right: 10%; animation-delay: 0s;   animation-duration: 1.5s; }
+  .star-2 { top: 12%; right: 30%; animation-delay: 0.3s; animation-duration: 1.8s; }
+  .star-3 { top: 25%; right: 5%;  animation-delay: 0.6s; animation-duration: 1.4s; }
+  .star-4 { top: 38%; right: 20%; animation-delay: 0.9s; animation-duration: 2.0s; }
+  .star-5 { top: 50%; right: 35%; animation-delay: 0.4s; animation-duration: 1.6s; }
 
   @keyframes meteor {
     0% {
       transform: rotate(-35deg) translateX(0);
       opacity: 0;
     }
-    20% {
+    15% {
       opacity: 1;
     }
     100% {
