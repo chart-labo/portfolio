@@ -73,18 +73,19 @@ import Layout from '../layouts/Layout.astro';
     filter: drop-shadow(0 0 6px #ff9800);
     transform: rotate(-35deg);
     opacity: 0;
-  animation-name: meteor;
+    /* 1回だけ流れて最後は透明のまま停止（1 forwards） */
+    animation-name: meteor;
     animation-timing-function: ease-out;
     animation-iteration-count: 1;
     animation-fill-mode: forwards;
   }
 
-  /* 1本ずつ位置（top, right）、タイミング（delay）、スピード（duration）をバラバラにする */
-  .shooting-star:nth-child(1) { top: 0%;  right: 10%; animation-delay: 0s;   animation-duration: 2.2s; }
-  .shooting-star:nth-child(2) { top: 10%; right: 30%; animation-delay: 0.8s; animation-duration: 2.8s; }
-  .shooting-star:nth-child(3) { top: 25%; right: 5%;  animation-delay: 1.5s; animation-duration: 2.0s; }
-  .shooting-star:nth-child(4) { top: 35%; right: 20%; animation-delay: 2.3s; animation-duration: 3.2s; }
-  .shooting-star:nth-child(5) { top: 50%; right: 35%; animation-delay: 1.0s; animation-duration: 2.5s; }
+  /* 最初の1〜2秒の間に、5本がパラパラと流れて終わる設定 */
+  .shooting-star:nth-child(1) { top: 0%;  right: 10%; animation-delay: 0s;   animation-duration: 1.5s; }
+  .shooting-star:nth-child(2) { top: 10%; right: 30%; animation-delay: 0.3s; animation-duration: 1.8s; }
+  .shooting-star:nth-child(3) { top: 25%; right: 5%;  animation-delay: 0.6s; animation-duration: 1.4s; }
+  .shooting-star:nth-child(4) { top: 35%; right: 20%; animation-delay: 0.9s; animation-duration: 2.0s; }
+  .shooting-star:nth-child(5) { top: 50%; right: 35%; animation-delay: 0.4s; animation-duration: 1.6s; }
 
   @keyframes meteor {
     0% {
