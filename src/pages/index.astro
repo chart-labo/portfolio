@@ -1,8 +1,33 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import SunCalc from 'suncalc';
+
+// 今日の月相（0.0〜1.0）を取得
+const now = new Date();
+const { phase } = SunCalc.getMoonIllumination(now);
+
+// 月相の数値から名前と絵文字を判定
+function getMoonData(p: number) {
+  if (p < 0.03 || p >= 0.97) return { name: '新月', icon: '🌑', text: '今日は新月です' };
+  if (p < 0.22) return { name: '三日月', icon: '🌒', text: '綺麗な三日月です' };
+  if (p < 0.28) return { name: '上弦の月', icon: '🌓', text: '今日は上弦の月！' };
+  if (p < 0.47) return { name: '満月間近', icon: '🌔', text: 'もう少しで満月です' };
+  if (p < 0.53) return { name: '満月', icon: '🌕', text: '今日は満月です！' };
+  if (p < 0.72) return { name: '満月過ぎ', icon: '🌖', text: '少しずつ欠けていきます' };
+  if (p < 0.78) return { name: '下弦の月', icon: '🌗', text: '今日は下弦の月！' };
+  return { name: '有明の月', icon: '🌘', text: '新月に近づいています' };
+}
+
+const moon = getMoonData(phase);
 ---
 
 <Layout title="チャートのホームページ">
 	<h1>こんにちは、チャートです</h1>
 	<p>電気通信大学の学生です。ここは私のホームページです。</p>
+	
+	<div class="moon-card">
+  <span class="icon">{moon.icon}</span>
+  <h2>今日の月（{moon.name}）</h2>
+  <p>{moon.text}</p>
+</div>
 </Layout>
