@@ -8,7 +8,7 @@ import Layout from '../layouts/Layout.astro';
 
   <div class="moon-card">
     <span class="icon" id="moon-icon">🌑</span>
-    <h2>今日の月（<span id="moon-name">...</span>）</h2>
+    <h2>今夜の月は…（<span id="moon-name">...</span>）</h2>
     <p id="moon-text">読み込み中...</p>
   </div>
 </Layout>
@@ -24,16 +24,16 @@ import Layout from '../layouts/Layout.astro';
 
   function getMoonData(p: number) {
     if (p < 0.03 || p >= 0.97) return { name: '新月', icon: '🌑', text: '今日は新月です' };
-    if (p < 0.22) return { name: '三日月', icon: '🌒', text: '綺麗な三日月です' };
-    if (p < 0.28) return { name: '上弦の月', icon: '🌓', text: '今日は上弦の月！' };
-    if (p < 0.47) return { name: '満月間近', icon: '🌔', text: 'もう少しで満月です' };
-    if (p < 0.53) return { name: '満月', icon: '🌕', text: '今日は満月です！' };
-    if (p < 0.72) return { name: '満月過ぎ', icon: '🌖', text: '少しずつ欠けていきます' };
-    if (p < 0.78) return { name: '下弦の月', icon: '🌗', text: '今日は下弦の月！' };
-    return { name: '有明の月', icon: '🌘', text: '新月に近づいています' };
+    if (p < 0.22) return { name: '三日月！', icon: '🌒', text: '綺麗な三日月です' };
+    if (p < 0.28) return { name: '上弦の月！', icon: '🌓', text: '今日は上弦の月！' };
+    if (p < 0.47) return { name: '満月間近！', icon: '🌔', text: 'もう少しで満月です' };
+    if (p < 0.53) return { name: '満月！', icon: '🌕', text: '今日は満月です！' };
+    if (p < 0.72) return { name: '満月過ぎ！', icon: '🌖', text: '少しずつ欠けていきます' };
+    if (p < 0.78) return { name: '下弦の月！', icon: '🌗', text: '今日は下弦の月！' };
+    return { name: '有明の月！', icon: '🌘', text: '新月に近づいています' };
   }
 
-  const phase = getMoonPhase();
+  const phase = getMoonPhase;
   const moon = getMoonData(phase);
 
   const iconEl = document.getElementById('moon-icon');
