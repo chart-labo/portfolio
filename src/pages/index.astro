@@ -73,8 +73,10 @@ import Layout from '../layouts/Layout.astro';
     filter: drop-shadow(0 0 6px #ff9800);
     transform: rotate(-35deg);
     opacity: 0;
-    /* infiniteで永久にループ */
-    animation: meteor 3s linear infinite;
+  animation-name: meteor;
+    animation-timing-function: ease-out;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
   }
 
   /* 1本ずつ位置（top, right）、タイミング（delay）、スピード（duration）をバラバラにする */
