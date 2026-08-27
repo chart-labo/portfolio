@@ -3,6 +3,10 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="チャートのホームページ">
+  <div class="star-container">
+    <div class="shooting-star"></div>
+  </div>
+  
   <h1>こんにちは、チャートです</h1>
   <p>　⋆⭒˚｡⋆　Welcome to my homepage　⋆⭒˚｡⋆</p>
 
@@ -33,7 +37,7 @@ import Layout from '../layouts/Layout.astro';
     return { name: '有明の月！', icon: '🌘', text: '新月に近づいています' };
   }
 
-  const phase = getMoonPhase;
+  const phase = getMoonPhase();
   const moon = getMoonData(phase);
 
   const iconEl = document.getElementById('moon-icon');
@@ -44,3 +48,42 @@ import Layout from '../layouts/Layout.astro';
   if (nameEl) nameEl.textContent = moon.name;
   if (textEl) textEl.textContent = moon.text;
 </script>
+
+<style>
+  /* 流れ星のアニメーション定義 */
+  .star-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none; /* クリックを阻害しない */
+    z-index: 9999;
+  }
+
+  .shooting-star {
+    position: absolute;
+    top: 10%;
+    right: 10%;
+    width: 150px;
+    height: 2px;
+    background: linear-gradient(-45deg, #fff, rgba(255, 255, 255, 0));
+    filter: drop-shadow(0 0 6px #61dafb);
+    transform: rotate(-35deg);
+    animation: meteor 1.2s ease-out forwards;
+  }
+
+  @keyframes meteor {
+    0% {
+      transform: rotate(-35deg) translateX(0);
+      opacity: 0;
+    }
+    15% {
+      opacity: 1;
+    }
+    100% {
+      transform: rotate(-35deg) translateX(-1000px);
+      opacity: 0;
+    }
+  }
+</style>
