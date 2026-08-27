@@ -14,10 +14,8 @@ import Layout from '../layouts/Layout.astro';
 
   <!-- クラス名を修正（shooting-star と star-1 を半角スペースで区切る） -->
   <div class="star-container" aria-hidden="true">
-    <span class="shooting-star star-1">⭐</span>
-    <span class="shooting-star star-2">⭐</span>
-    <span class="shooting-star star-3">⭐</span>
-  </div>
+  <span class="test-star">⭐</span>
+</div>
 </Layout>
 
 <script>
@@ -63,32 +61,25 @@ import Layout from '../layouts/Layout.astro';
     z-index: 9999;
   }
 
-  .shooting-star {
+  .test-star {
     position: absolute;
-    width: 80px; /* ★星の大きさ */
-    height: auto;
-    opacity: 0;
-    /* 1回だけ流れて消えた状態で止まる設定 */
-    animation: meteor ease-out 1 forwards;
+    top: 10%;
+    right: 10%;
+    font-size: 60px; /* 見やすい大きさ */
+    animation: test-meteor 2.5s linear infinite; /* 確認用に無限ループ */
   }
 
-  /* それぞれの流れる位置・遅延・スピード */
-  .star-1 { top: 0%;  right: 10%; animation-delay: 0s;   animation-duration: 1.5s; }
-  .star-2 { top: 12%; right: 30%; animation-delay: 0.3s; animation-duration: 1.8s; }
-  .star-3 { top: 25%; right: 5%;  animation-delay: 0.6s; animation-duration: 1.4s; }
-  .star-4 { top: 38%; right: 20%; animation-delay: 0.9s; animation-duration: 2.0s; }
-  .star-5 { top: 50%; right: 35%; animation-delay: 0.4s; animation-duration: 1.6s; }
-
-  @keyframes meteor {
+  /* 回転を使わず、右上から左下（X方向にマイナス、Y方向にプラス）へ直接動かす */
+  @keyframes test-meteor {
     0% {
-      transform: rotate(-35deg) translateX(0);
+      transform: translate(0, 0);
       opacity: 0;
     }
     15% {
       opacity: 1;
     }
     100% {
-      transform: rotate(-35deg) translateX(-1000px);
+      transform: translate(-80vw, 70vh); /* 画面の左下に向かって横切る */
       opacity: 0;
     }
   }
