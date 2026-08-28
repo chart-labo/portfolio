@@ -3,8 +3,7 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="チャートのホームページ">
- 
- <!-- 1. オープニング画面（画面全体をクリック待ちにする幕） -->
+  <!-- 1. オープニング画面（画面全体をクリック待ちにする幕） -->
   <div id="opening-overlay">
     <div class="star-wrapper">
       <img src="/images/star.png" class="hero-star" alt="" />
@@ -17,9 +16,8 @@ import Layout from '../layouts/Layout.astro';
 
   <!-- 2. サイトのメインコンテンツ -->
   <div class="main-content">
-    <h1>こんにちは、チャートです</h1>
-    <p> ⋆⭒˚｡⋆ Welcome to my homepage ⋆⭒˚｡⋆</p>
-
+    <h1>⋆⭒˚｡ Explore Chart's orbit ⭒˚｡⋆</h1>
+    <p>Welcome to Chart's homepage.</p>
     <div class="moon-card">
       <span class="icon" id="moon-icon">🌑</span>
       <h2>今夜の月は…<span id="moon-name">...</span></h2>
@@ -118,54 +116,57 @@ import Layout from '../layouts/Layout.astro';
 
   /* 星の上に重ねるメッセージ文字とボタン */
   /* 文字とボタンを囲む親グループ */
-.star-text {
-  position: absolute;
-  top: 32%;          /* 上下の位置 */
-  left: 19%;         /* 左右の位置 */
-  max-width: 110px;
+  .star-text {
+    position: absolute;
+    top: 32%;          /* 上下の位置 */
+    left: 19%;         /* 左右の位置 */
+    max-width: 110px;
 
-  /* 縦並び ＆ 中央寄せ */
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 4px;          /* ★文字とボタンの隙間（ここを自由に調整！） */
+    /* 縦並び ＆ 中央寄せ */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;          /* ★文字とボタンの隙間（ここを自由に調整！） */
 
-  pointer-events: none;
-  user-select: none;
-}
+    pointer-events: none;
+    user-select: none;
+  }
 
-/* 文字（<p>タグの勝手な余白を消す） */
-.star-text p {
-  margin: 7px 0 0 0;      
-  color: #30096e;
-  font-weight: bold;
-  font-size: 13px;
-  line-height: 1.5;
-  text-align: center;
-}
-/* クリックボタン（margin-top は消してOK） */
-.click-hint {
-  display: inline-block;
-  font-size: 10px;
-  background: #faeb64;
-  color: #30096e;
-  padding: 4px 10px;
-  border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  animation: pulse 1.5s infinite;
+  /* 文字（<p>タグの勝手な余白を消す） */
+  .star-text p {
+    margin: 7px 0 0 0;      
+    color: #30096e;
+    font-weight: bold;
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: center;
+  }
 
-position: relative;
-  z-index: 10;
-  pointer-events: auto;
-  cursor: pointer;
-  transition: transform 0.2s ease;
-}
-.click-hint:hover {
-  animation-play-state: paused;
-  background:  #30096e;           /* ホバー時の背景色（例：白） */
-  color: #faeb64;                 /* ホバー時の文字色 */
-  transform: scale(1.1);          /* 少し大きくする */
-}
+  /* クリックボタン（margin-top は消してOK） */
+  .click-hint {
+    display: inline-block;
+    font-size: 10px;
+    background: #faeb64;
+    color: #30096e;
+    padding: 4px 10px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    animation: pulse 1.5s infinite;
+
+    position: relative;
+    z-index: 10;
+    pointer-events: auto;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+  }
+
+  .click-hint:hover {
+    animation-play-state: paused;
+    background:  #30096e;           /* ホバー時の背景色（例：白） */
+    color: #faeb64;                 /* ホバー時の文字色 */
+    transform: scale(1.1);          /* 少し大きくする */
+  }
+
   /* 右上から流れてきて中央でピタッと止まる */
   @keyframes starArrive {
     0% {
