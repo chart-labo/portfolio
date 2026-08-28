@@ -27,6 +27,7 @@ const { title } = Astro.props;
 				<a href="/">Home</a>
 				<a href="/about">About</a>
 				<a href="/works">Works</a>
+				<a href="/links">Links</a>
 			</nav>
 		</header>
 
@@ -54,10 +55,7 @@ const { title } = Astro.props;
 	}
 
 	/* サイト内のすべての画像・イラストにも適用する場合 */
-	img, canvas {
-		image-rendering: pixelated;
-		image-rendering: crisp-edges;
-	}
+	
 
 	body {
 		max-width: 720px;
@@ -87,7 +85,7 @@ const { title } = Astro.props;
 	}
 
 	main {
-		background-color: rgba(255, 255, 255, 0.85);
+		background-color: rgba(255, 255, 255, 0.80);
 		color: #414170;
 		border-radius: 12px;
 		box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);

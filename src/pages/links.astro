@@ -1,0 +1,73 @@
+---
+// ここで Layout コンポーネントをインポートします
+import Layout from '../layouts/Layout.astro';
+
+// ここでデータを定義します。
+// 2枚目、3枚目にも名前を追加してください（ここでは例として「ラニ」「タイ」としています）。
+const links = [
+  { name: "あみーご", avatar: "/images/ami.jpg", url: "https://t.co/vRRShQO5Zw" },
+  { name: "lanips", avatar: "/images/lani.jpg", url: "https://t.co/KbUPsJWsuo" }, // 名前を追加
+  { name: "鯛", avatar: "/images/tai.jpg", url: "https://t.co/bkpzdhYoNP" }, // 名前を追加
+];
+---
+<Layout title="Links">
+  <div class="links-card">
+    <h1>LINKS</h1>
+    <div class="links-grid"> <!-- クラス名を links-list から links-grid へ変更 -->
+      {
+        links.map((link) => (
+          // これが重要！ <a> タグ全体を 1つの「カード」として扱います
+          <a href={link.url} target="_blank" rel="noopener noreferrer" class="link-item">
+            <img
+              src={link.avatar}
+              alt={link.name} // genericな文字ではなく、名前を入れます
+              class="profile-img" // クラス名を指定します
+            />
+            <span class="profile-name">{link.name}</span> <!-- これを追加！ -->
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</Layout>
+
+<style>
+/* プロフィール画像 */
+.profile-img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* リンク全体のカードレイアウト */
+.link-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: #414170;
+} /* ← ここに「}」が必要でした */
+
+.link-item:hover {
+  color: #317297;
+}
+
+/* 名前のテキスト用スタイル */
+.profile-name {
+  font-weight: bold;
+  font-size: 1.1em;
+}
+
+/* 全体のグリッドレイアウト */
+.links-grid {
+  display: grid;
+  /* 画像サイズ(100px)に合わせて最小幅を 100px〜120px に調整すると綺麗に並びます */
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+}
+</style>
