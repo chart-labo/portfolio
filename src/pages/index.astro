@@ -31,7 +31,7 @@ import Layout from '../layouts/Layout.astro';
 <script>
   // 音声再生 & 画面切り替え処理
   const overlay = document.getElementById('opening-overlay');
-  const bgm = document.getElementById('bgm') as HTMLAudioElement;
+  const bgm = document.getElementById('global-bgm') as HTMLAudioElement;
 
   if (overlay && bgm) {
     overlay.addEventListener('click', () => {
