@@ -27,49 +27,70 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <script>
-  // 音声再生 & 画面切り替え処理
-  const overlay = document.getElementById('opening-overlay');
-  const bgm = document.getElementById('global-bgm') as HTMLAudioElement;
+  function setupOpening() {
+    const overlay = document.getElementById('opening-overlay');
+    const bgm = document.getElementById('global-bgm') as HTMLAudioElement;
 
-  if (overlay && bgm) {
-    overlay.addEventListener('click', () => {
-      // 音楽再生（失敗しても無視して進むエラー処理付き）
-      bgm.play().catch(() => {});
-      // オープニング幕を消す
-      overlay.classList.add('hide');
-    });
+    if (!overlay) return;
+
+    // 1. フラグの確認
+    const hasVisited = sessionStorage.getItem('hasVisitedWelcome');
+
+    if (hasVisited) {
+      // 訪問済みの場合はCSSクラスを付与して即座に非表示
+      overlay.classList.add('is-visited');
+    } else {
+      // 初回訪問時：クリックイベントを設定
+      overlay.addEventListener('click', () => {
+        if (bgm) bgm.play().catch(() => {});
+        overlay.classList.add('hide');
+        sessionStorage.setItem('hasVisitedWelcome', 'true');
+      });
+    }
   }
 
-  // 月の計算
-  function getMoonPhase(date = new Date()) {
-    const cycle = 29.5305882;
-    const knownNewMoon = new Date('2000-01-06T18:14:00Z');
-    const diffDays = (date.getTime() - knownNewMoon.getTime()) / (1000 * 60 * 60 * 24);
-    const phase = (diffDays % cycle) / cycle;
-    return phase < 0 ? phase + 1 : phase;
+  // 月の計算処理
+  function setupMoon() {
+    function getMoonPhase(date = new Date()) {
+      const cycle = 29.5305882;
+      const knownNewMoon = new Date('2000-01-06T18:14:00Z');
+      const diffDays = (date.getTime() - knownNewMoon.getTime()) / (1000 * 60 * 60 * 24);
+      const phase = (diffDays % cycle) / cycle;
+      return phase < 0 ? phase + 1 : phase;
+    }
+
+    function getMoonData(p: number) {
+      if (p < 0.03 || p >= 0.97) return { name: '新月', icon: '🌑', text: '今日は新月です' };
+      if (p < 0.22) return { name: '三日月！', icon: '🌒', text: '綺麗な三日月です' };
+      if (p < 0.28) return { name: '上弦の月！', icon: '🌓', text: '今日は上弦の月！' };
+      if (p < 0.47) return { name: '満月間近！', icon: '🌔', text: 'もう少しで満月です' };
+      if (p < 0.53) return { name: '満月！', icon: '🌕', text: '今日は満月です！' };
+      if (p < 0.72) return { name: '満月過ぎ！', icon: '🌖', text: '少しずつ欠けていきます' };
+      if (p < 0.78) return { name: '下弦の月！', icon: '🌗', text: '今日は下弦の月！' };
+      return { name: '有明の月！', icon: '🌘', text: '新月に近づいています' };
+    }
+
+    const phase = getMoonPhase();
+    const moon = getMoonData(phase);
+
+    const iconEl = document.getElementById('moon-icon');
+    const nameEl = document.getElementById('moon-name');
+    const textEl = document.getElementById('moon-text');
+
+    if (iconEl) iconEl.textContent = moon.icon;
+    if (nameEl) nameEl.textContent = moon.name;
+    if (textEl) textEl.textContent = moon.text;
   }
 
-  function getMoonData(p: number) {
-    if (p < 0.03 || p >= 0.97) return { name: '新月', icon: '🌑', text: '今日は新月です' };
-    if (p < 0.22) return { name: '三日月！', icon: '🌒', text: '綺麗な三日月です' };
-    if (p < 0.28) return { name: '上弦の月！', icon: '🌓', text: '今日は上弦の月！' };
-    if (p < 0.47) return { name: '満月間近！', icon: '🌔', text: 'もう少しで満月です' };
-    if (p < 0.53) return { name: '満月！', icon: '🌕', text: '今日は満月です！' };
-    if (p < 0.72) return { name: '満月過ぎ！', icon: '🌖', text: '少しずつ欠けていきます' };
-    if (p < 0.78) return { name: '下弦の月！', icon: '🌗', text: '今日は下弦の月！' };
-    return { name: '有明の月！', icon: '🌘', text: '新月に近づいています' };
-  }
+  // 初回読み込み ＆ Astroのページ遷移時に両方実行
+  document.addEventListener('astro:page-load', () => {
+    setupOpening();
+    setupMoon();
+  });
 
-  const phase = getMoonPhase();
-  const moon = getMoonData(phase);
-
-  const iconEl = document.getElementById('moon-icon');
-  const nameEl = document.getElementById('moon-name');
-  const textEl = document.getElementById('moon-text');
-
-  if (iconEl) iconEl.textContent = moon.icon;
-  if (nameEl) nameEl.textContent = moon.name;
-  if (textEl) textEl.textContent = moon.text;
+  // ClientRouterを使っていない通常のMPA遷移用フォールバック
+  setupOpening();
+  setupMoon();
 </script>
 
 <style>
@@ -184,4 +205,8 @@ import Layout from '../layouts/Layout.astro';
     0%, 100% { transform: scale(1); opacity: 1; }
     50% { transform: scale(0.95); opacity: 0.7; }
   }
+  /* 訪問済みの場合はCSSレベルで画面から消す */
+ #opening-overlay.is-visited {
+  display: none !important;
+ }
 </style>
