@@ -1,30 +1,64 @@
 ---
-import Layout from '../layouts/Layout.astro';
+import { ClientRouter } from 'astro:transitions';
+const { title = "チャートのホームページ" } = Astro.props;
 ---
 
-<Layout title="チャートのホームページ">
-  <!-- 1. オープニング画面（画面全体をクリック待ちにする幕） -->
-  <div id="opening-overlay">
-    <div class="star-wrapper">
-      <img src="/images/star.png" class="hero-star" alt="" />
-      <div class="star-text">
-        <p>This website <br> plays music.</p>
-        <span class="click-hint">start!</span>
-      </div>
-    </div>
-  </div>
+<!DOCTYPE html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width" />
+		<title>{title}</title>
+		<ClientRouter />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700&family=DotGothic16&display=swap" rel="stylesheet" />
+	</head>
+	<body>
+		<audio id="global-bgm" src="/music/今日の空も.mp3" loop transition:persist></audio>
+		
+		<!-- オープニング画面 -->
+		<div id="opening-overlay">
+			<div class="star-wrapper">
+				<img src="/images/star.png" class="hero-star" alt="" />
+				<div class="star-text">
+					<p>This website <br> plays music.</p>
+					<span class="click-hint">start!</span>
+				</div>
+			</div>
+		</div>
 
-  <div class="start">
-    <h1> ⋆⭒˚｡ Explore Chart's orbit ⋆⭒˚｡ </h1>
-    <p>-Welcome to Chart's homepage-</p>
-  </div>
-    <div class="moon-card">
-      <span class="icon" id="moon-icon">🌑</span>
-      <h2>今夜の月は…<span id="moon-name">...</span></h2>
-      <p id="moon-text">読み込み中...</p>
-    </div>
+		<header>
+			<nav>
+				<a href="/">Home</a>
+				<a href="/about">About</a>
+				<a href="/works">Works</a>
+				<a href="/links">Links</a>
+			</nav>
+		</header>
 
-</Layout>
+		<!-- 1つ目の白い半透明の枠 -->
+		<div class="content-frame top-frame">
+			<div class="start">
+				<h1> ⋆⭒˚｡ Explore Chart's orbit ⋆⭒˚｡ </h1>
+				<p>-Welcome to Chart's homepage-</p>
+			</div>
+		</div>
+
+		<!-- 2つ目の白い半透明の枠 -->
+		<div class="content-frame bottom-frame">
+			<div class="moon-card">
+				<span class="icon" id="moon-icon">🌑</span>
+				<h2>今夜の月は…<span id="moon-name">...</span></h2>
+				<p id="moon-text">読み込み中...</p>
+			</div>
+
+			<slot />
+		</div>
+
+		<footer></footer>
+	</body>
+</html>
 
 <script>
   function setupOpening() {
@@ -33,14 +67,11 @@ import Layout from '../layouts/Layout.astro';
 
     if (!overlay) return;
 
-    // 1. フラグの確認
     const hasVisited = sessionStorage.getItem('hasVisitedWelcome');
 
     if (hasVisited) {
-      // 訪問済みの場合はCSSクラスを付与して即座に非表示
       overlay.classList.add('is-visited');
     } else {
-      // 初回訪問時：クリックイベントを設定
       overlay.addEventListener('click', () => {
         if (bgm) bgm.play().catch(() => {});
         overlay.classList.add('hide');
@@ -49,7 +80,6 @@ import Layout from '../layouts/Layout.astro';
     }
   }
 
-  // 月の計算処理
   function setupMoon() {
     function getMoonPhase(date = new Date()) {
       const cycle = 29.5305882;
@@ -82,13 +112,11 @@ import Layout from '../layouts/Layout.astro';
     if (textEl) textEl.textContent = moon.text;
   }
 
-  // 初回読み込み ＆ Astroのページ遷移時に両方実行
   document.addEventListener('astro:page-load', () => {
     setupOpening();
     setupMoon();
   });
 
-  // ClientRouterを使っていない通常のMPA遷移用フォールバック
   setupOpening();
   setupMoon();
 </script>
@@ -101,23 +129,21 @@ import Layout from '../layouts/Layout.astro';
     left: 0;
     width: 100vw;
     height: 100vh;
-    background-color: #201b6d; /* 暗い夜空のような背景色 */
+    background-color: #201b6d;
     display: flex;
     justify-content: center;
     align-items: center;
     z-index: 99999;
-    cursor: pointer; /* クリックできることを提示 */
+    cursor: pointer;
     transition: opacity 0.8s ease, visibility 0.8s ease;
   }
 
-  /* クリックされたらフェードアウトして消える */
   #opening-overlay.hide {
     opacity: 0;
     visibility: hidden;
     pointer-events: none;
   }
 
-  /* 星とテキストを包む枠（右上から中央へ移動） */
   .star-wrapper {
     position: relative;
     display: flex;
@@ -127,35 +153,28 @@ import Layout from '../layouts/Layout.astro';
     animation: starArrive 1.2s ease-out forwards;
   }
 
-  /* 流れ星画像 */
   .hero-star {
-    width: 500px; /* 文字が入る大きめサイズ */
+    width: 500px;
     height: auto;
     image-rendering: pixelated;
     filter: drop-shadow(0 0 12px rgba(255, 230, 120, 0.5));
   }
 
-  /* 星の上に重ねるメッセージ文字とボタン */
-  /* 文字とボタンを囲む親グループ */
   .star-text {
     position: absolute;
-    top: 32%;          /* 上下の位置 */
-    left: 19%;         /* 左右の位置 */
+    top: 32%;
+    left: 19%;
     max-width: 110px;
-
-    /* 縦並び ＆ 中央寄せ */
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 4px;          /* ★文字とボタンの隙間（ここを自由に調整！） */
-
+    gap: 4px;
     pointer-events: none;
     user-select: none;
   }
 
-  /* 文字（<p>タグの勝手な余白を消す） */
   .star-text p {
-    margin: 7px 0 0 0;      
+    margin: 7px 0 0 0;
     color: #30096e;
     font-weight: bold;
     font-size: 13px;
@@ -163,7 +182,6 @@ import Layout from '../layouts/Layout.astro';
     text-align: center;
   }
 
-  /* クリックボタン（margin-top は消してOK） */
   .click-hint {
     display: inline-block;
     font-size: 10px;
@@ -173,7 +191,6 @@ import Layout from '../layouts/Layout.astro';
     border-radius: 12px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.2);
     animation: pulse 1.5s infinite;
-
     position: relative;
     z-index: 10;
     pointer-events: auto;
@@ -183,12 +200,11 @@ import Layout from '../layouts/Layout.astro';
 
   .click-hint:hover {
     animation-play-state: paused;
-    background:  #30096e;           /* ホバー時の背景色（例：白） */
-    color: #faeb64;                 /* ホバー時の文字色 */
-    transform: scale(1.1);          /* 少し大きくする */
+    background: #30096e;
+    color: #faeb64;
+    transform: scale(1.1);
   }
 
-  /* 右上から流れてきて中央でピタッと止まる */
   @keyframes starArrive {
     0% {
       transform: translate(60vw, -60vh) scale(0.3) rotate(-30deg);
@@ -200,24 +216,97 @@ import Layout from '../layouts/Layout.astro';
     }
   }
 
-  /* ヒント文字のフワフワ点滅 */
   @keyframes pulse {
     0%, 100% { transform: scale(1); opacity: 1; }
     50% { transform: scale(0.95); opacity: 0.7; }
   }
-  /* 訪問済みの場合はCSSレベルで画面から消す */
- #opening-overlay.is-visited {
-  display: none !important;
- }
 
- .start{
-		background-color: rgba(214, 228, 255, 0.8);
-		color: #414170;
-		border-radius: 12px;
-		box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
-		padding: 2rem;
-		margin-top: 1.5rem;
+  #opening-overlay.is-visited {
+    display: none !important;
+  }
+
+  html {
+    background-image: url('/images/星空.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    image-rendering: pixelated;
+    image-rendering: crisp-edges;
+  }
+
+  body {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    font-family: "DotGothic16", sans-serif;
+    line-height: 1.8;
+    color: #333;
+  }
+
+  nav {
+    display: flex;
+    gap: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+  }
+
+  nav a {
+    color: #449be2;
+    text-decoration: none;
+    transition: color 0.2s ease;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+  }
+
+  nav a:hover {
+    color: #245fac;
+  }
+
+  /* .content-frame (元のmainスタイルを継承) */
+  .content-frame {
+    background-color: rgba(255, 255, 255, 0.80);
+    color: #414170;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+    padding: 2rem;
+    margin-top: 1.5rem;
+  }
+
+  .top-frame {
+    margin-bottom: 2rem; /* 枠の間の余白 */
+  }
+
+  /* .start (元の青い半透明枠スタイルを削除) */
+  .start {
+    /* 削除: background-color: rgba(214, 228, 255, 0.8); */
+    color: #414170;
+    /* 削除: border-radius: 12px; */
+    /* 削除: box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08); */
+    /* 削除: padding: 2rem; */
+    /* 削除: margin-top: 1.5rem; */
     text-align: center;
     margin-bottom: 2.5rem;
-	}
+  }
+
+  /* .moon-card スタイル追加 (元のコードになかった) */
+  .moon-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-bottom: 2rem;
+  }
+
+
+  .moon-card .icon {
+    font-size: 2rem;
+    image-rendering: pixelated; /* 月の絵文字をドット絵風に */
+  }
+
+  footer {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    font-size: 0.85rem;
+    color: #888;
+  }
 </style>
