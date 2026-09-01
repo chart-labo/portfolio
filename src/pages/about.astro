@@ -3,13 +3,12 @@ import Layout from '../layouts/Layout.astro';
 ---
 
 <Layout title="About | チャートのホームページ">
+ <div class="profile-header">
 	<img src="/images/hosizora.png" alt="プロフィール写真" class="profile-img" />
-	<h1>自己紹介</h1>
+    <h1 class="profile-name">チャート</h1>
+ </div>
+
  <table>
-	<tr>
-	 <th>name</th>
-	 <td>チャート</td>
-    </tr>
 	<tr>
 	<th>Academy</th>
 	<td>電気通信大学Ⅲ類26生</td>
@@ -30,6 +29,41 @@ import Layout from '../layouts/Layout.astro';
 </Layout>
 
 <style>
+.profile-name {
+	font-size: 2.2rem;
+	font-weight: bold;
+	margin: 0;
+
+	/* --- タイピング風アニメーションの設定 --- */
+	display: inline-block;
+	overflow: hidden;           /* はみ出た文字を隠す */
+	white-space: nowrap;        /* 改行を防ぐ */
+	border-right: 3px solid #414170; /* カーソルの縦線 */
+	width: 0;                   /* 最初は文字数をゼロにする */
+	
+	animation: 
+		typing 1.0s steps(4) forwards, /* 4文字分を順番に表示 */
+		blink 1.0s infinite;            /* カーソルの点滅 */
+}
+
+/* 文字が伸びていくアニメーション */
+@keyframes typing {
+	from { width: 0; }
+	to { width: 4.7em; } /* 文字が収まる幅（全角4文字分＋α） */
+}
+
+/* カーソル（縦線）が点滅するアニメーション */
+@keyframes blink {
+	from, to { border-color: transparent; }
+	50% { border-color: #414170; }
+}
+
+.profile-header {
+		display: flex;
+		align-items: center; /* 上下中央揃え */
+		gap: 1.5rem;          /* 画像とテキストの間隔 */
+		margin-bottom: 2rem;
+	}
 	.profile-img {
 		width: 120px;
 		height: 120px;
@@ -45,7 +79,7 @@ import Layout from '../layouts/Layout.astro';
 
 .social-links a {
     padding: 0.4rem 1rem;
-    border: 1px solid #449be2; 
+    border: 1px solid #449be2;
     border-radius: 999px;
     color: #449be2;
     text-decoration: none;
