@@ -14,16 +14,16 @@ import Layout from '../layouts/Layout.astro';
     </div>
   </div>
 
-  <!-- 2. サイトのメインコンテンツ -->
-  <div class="main-content">
-    <h1>⋆⭒˚｡ Explore Chart's orbit ⭒˚｡⋆</h1>
-    <p>Welcome to Chart's homepage.</p>
+  <div class="start">
+    <h1> ⋆⭒˚｡ Explore Chart's orbit ⋆⭒˚｡ </h1>
+    <p>-Welcome to Chart's homepage-</p>
+  </div>
     <div class="moon-card">
       <span class="icon" id="moon-icon">🌑</span>
       <h2>今夜の月は…<span id="moon-name">...</span></h2>
       <p id="moon-text">読み込み中...</p>
     </div>
-  </div>
+
 </Layout>
 
 <script>
@@ -209,4 +209,15 @@ import Layout from '../layouts/Layout.astro';
  #opening-overlay.is-visited {
   display: none !important;
  }
+
+ .start{
+		background-color: rgba(214, 228, 255, 0.8);
+		color: #414170;
+		border-radius: 12px;
+		box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+		padding: 2rem;
+		margin-top: 1.5rem;
+    text-align: center;
+    margin-bottom: 2.5rem;
+	}
 </style>
