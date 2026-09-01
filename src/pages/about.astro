@@ -1,31 +1,39 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Bgm from '../layouts/bgm.layout.astro';
 ---
-
+<Bgm/>
 <Layout title="About | チャートのホームページ">
- <div class="profile-header">
-	<img src="/images/hosizora.png" alt="プロフィール写真" class="profile-img" />
+  <div class="profile-header">
+    <img src="/images/hosizora.png" alt="プロフィール写真" class="profile-img" />
     <h1 class="profile-name">チャート</h1>
- </div>
+  </div>
 
- <table>
-	<tr>
-	<th>Academy</th>
-	<td>電気通信大学Ⅲ類26生</td>
-	</tr>
-	<tr>
-	 <th>club</th>
-     <td>U.E.C.wings、Den2DJ、UEC Astronomy</td>
-	</tr>
-	<tr>
-	 <th>hobby</th>
-	 <td>散歩、イラスト制作、編み物、DJ etc</td>
-	</tr>
-	<tr>
-	 <th>MBTI</th>
-	 <td>INTP</td>
-	</tr>
- </table>
+  <table>
+    <tr>
+      <th>Academy</th>
+      <td>電気通信大学Ⅲ類26生</td>
+    </tr>
+    <tr>
+      <th>club</th>
+      <td>U.E.C.wings、Den2DJ、UEC Astronomy</td>
+    </tr>
+    <tr>
+      <th>hobby</th>
+      <td>散歩、イラスト制作、編み物、DJ etc</td>
+    </tr>
+    <tr>
+      <th>MBTI</th>
+      <td>INTP</td>
+    </tr>
+  </table>
+
+  <!-- Layout の中に移動 -->
+  <div class="social-links">
+    <a href="https://x.com/_chart_2525_" target="_blank" rel="noopener noreferrer">
+      Twitter (X)
+    </a>
+  </div>
 </Layout>
 
 <style>
@@ -94,11 +102,3 @@ import Layout from '../layouts/Layout.astro';
     color: #fff;
 }
 </style>
-
-<div class="social-links">
-	<a href="https://x.com/_chart_2525_
-	" target="_blank" rel="noopener noreferrer">
-		Twitter (X)
-	</a>
-	
-</div>

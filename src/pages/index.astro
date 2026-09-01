@@ -1,8 +1,9 @@
 ---
 import { ClientRouter } from 'astro:transitions';
 const { title = "チャートのホームページ" } = Astro.props;
+import Bgm from '../layouts/bgm.layout.astro';
 ---
-
+<Bgm/>
 <!DOCTYPE html>
 <html lang="ja">
 	<head>
@@ -15,7 +16,6 @@ const { title = "チャートのホームページ" } = Astro.props;
 		<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;700&family=DotGothic16&display=swap" rel="stylesheet" />
 	</head>
 	<body>
-		<audio id="global-bgm" src="/music/今日の空も.mp3" loop transition:persist></audio>
 		
 		<!-- オープニング画面 -->
 		<div id="opening-overlay">
