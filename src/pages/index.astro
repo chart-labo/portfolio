@@ -288,7 +288,7 @@ function getMoonData(p: number) {
     color: #414170;
     border-radius: 12px;
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
-    padding: 2rem;
+    padding: 1.2rem;
     margin-top: 1.5rem;
   }
 
@@ -331,12 +331,13 @@ function getMoonData(p: number) {
 
   
 	.profile-img {
-		width: 120px;
-		height: 120px;
+		width: 80px;
+		height: 80px;
 		border-radius: 50%;
 		object-fit: cover;
 		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-	}
+	  flex-shrink: 0;
+  }
 	.social-links {
     display: flex;
     gap: 0.75rem;
@@ -344,12 +345,12 @@ function getMoonData(p: number) {
 }
 
 .social-links a {
-    padding: 0.4rem 1rem;
+    padding: 0.3rem 0.8rem;
     border: 1px solid #449be2;
     border-radius: 999px;
     color: #449be2;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.85rem;
     transition:
         background-color 0.2s ease,
         color 0.2s ease;
@@ -360,16 +361,35 @@ function getMoonData(p: number) {
     color: #fff;
 }
 
-.yokonarabi pre {
-  margin-bottom: 0rem; /* 必要に応じて 0 や 0.5rem に調整 */
+.yokonarabi {
+  min-width: 0;
+  word-break: break-word;
 }
 
 .middle-frame {
 		display: flex;
 		align-items: center; /* 上下中央揃え */
-		gap: 1.5rem;          /* 画像とテキストの間隔 */
+		gap: 1rem;          /* 画像とテキストの間隔 */
 		margin-bottom: 2rem;
 	}
-
+@media (min-width: 600px) {
+  .content-frame {
+    padding: 2rem; /* 元のゆったりした余白に戻す */
+  }
+  .profile-img {
+    width: 120px;  /* 元の120pxに戻す */
+    height: 120px;
+  }
+  .middle-frame {
+    gap: 1.5rem;   /* 元の間隔に戻す */
+  }
+  .social-links {
+    gap: 0.75rem;
+  }
+  .social-links a {
+    padding: 0.4rem 1rem; /* 元のボタンサイズに戻す */
+    font-size: 0.9rem;
+  }
+}
 
 </style>
