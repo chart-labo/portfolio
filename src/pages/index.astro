@@ -45,6 +45,23 @@ import Bgm from '../layouts/bgm.layout.astro';
 			</div>
 		</div>
 
+　<div class="content-frame middle-frame">
+    <img src="/images/hosizora.png" alt="プロフィール写真" class="profile-img" />
+    <div class="yokonarabi">
+     <h2>チャート</h2>
+     <p>電気通信大学Ⅲ類26生</p>
+     <pre>
+ハンネの由来は某数学参考書です。
+アイコン青いな→青…?→チャート！！という経緯でこのハンネにたどり着きました。</pre>
+　　 <div class="social-links">
+   　  <a href="https://x.com/_chart_2525_" target="_blank" rel="noopener noreferrer">
+       Twitter (X)
+   　  </a>
+      <a href="/about">About</a>
+  　 </div>
+    </div>
+　</div>
+
 		<!-- 2つ目の白い半透明の枠 -->
 		<div class="content-frame bottom-frame">
 			<div class="moon-card">
@@ -311,4 +328,46 @@ function getMoonData(p: number) {
     font-size: 0.85rem;
     color: #888;
   }
+
+  
+	.profile-img {
+		width: 120px;
+		height: 120px;
+		border-radius: 50%;
+		object-fit: cover;
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+	}
+	.social-links {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.social-links a {
+    padding: 0.4rem 1rem;
+    border: 1px solid #449be2;
+    border-radius: 999px;
+    color: #449be2;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+}
+
+.social-links a:hover {
+    background-color: #4a90d9;
+    color: #fff;
+}
+
+.yokonarabi pre {
+  margin-bottom: 0rem; /* 必要に応じて 0 や 0.5rem に調整 */
+}
+
+.middle-frame {
+		display: flex;
+		align-items: center; /* 上下中央揃え */
+		gap: 1.5rem;          /* 画像とテキストの間隔 */
+		margin-bottom: 2rem;
+	}
 </style>
