@@ -89,17 +89,19 @@ import Bgm from '../layouts/bgm.layout.astro';
       return phase < 0 ? phase + 1 : phase;
     }
 
-    function getMoonData(p: number) {
-      if (p < 0.03 || p >= 0.97) return { name: '新月', icon: '🌑', text: '今日は新月です' };
-      if (p < 0.22) return { name: '三日月！', icon: '🌒', text: '綺麗な三日月です' };
-      if (p < 0.28) return { name: '上弦の月！', icon: '🌓', text: '今日は上弦の月！' };
-      if (p < 0.47) return { name: '満月間近！', icon: '🌔', text: 'もう少しで満月です' };
-      if (p < 0.53) return { name: '満月！', icon: '🌕', text: '今日は満月です！' };
-      if (p < 0.72) return { name: '満月過ぎ！', icon: '🌖', text: '少しずつ欠けていきます' };
-      if (p < 0.78) return { name: '下弦の月！', icon: '🌗', text: '今日は下弦の月！' };
-      return { name: '有明の月！', icon: '🌘', text: '新月に近づいています' };
-    }
-
+function getMoonData(p: number) {
+  if (p < 0.03 || p >= 0.97) return { name: '新月', icon: '🌑', text: '今日は新月です' };
+  if (p < 0.22) return { name: '三日月！', icon: '🌒', text: '綺麗な三日月です' };
+  if (p < 0.28) return { name: '上弦の月！', icon: '🌓', text: '今日は上弦の月！' };
+  if (p < 0.47) return { name: '十三夜！', icon: '🌔', text: 'もう少しで満月！' };
+  if (p < 0.53) return { name: '満月！', icon: '🌕', text: '今日は満月です！' };
+  if (p < 0.57) return { name: '十六夜！', icon: '🌖', text: '少しずつ欠けていきます' };
+  if (p < 0.62) return { name: '立待月！', icon: '🌖', text: '「立って待つほど愛おしい月」です' };
+  if (p < 0.67) return { name: '居待月！', icon: '🌖', text: '満月を過ぎて、少し落ち着いた輝きの月です' };
+  if (p < 0.72) return { name: '寝待月！', icon: '🌖', text: '月の出が夜遅いので、「寝て待つ月」です' };
+  if (p < 0.78) return { name: '下弦の月！', icon: '🌗', text: '今日は下弦の月！' };
+  return { name: '有明の月！', icon: '🌘', text: '新月に近づいています' };
+}
     const phase = getMoonPhase();
     const moon = getMoonData(phase);
 
