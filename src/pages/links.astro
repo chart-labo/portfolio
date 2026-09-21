@@ -10,11 +10,13 @@ const links = [
   { name: "水胆", avatar: "/images/mizu2.jpeg", url: "https://t.co/mz2Lg1DxzD" }, 
 ];
 import Bgm from '../layouts/bgm.layout.astro';
+const nameText = "Links";
+const charCount = nameText.length;
 ---
 <Bgm/>
 <Layout title="Links">
   <div class="links-card">
-    <h1>LINKS</h1>
+    <h1 class="name" style={`--char-count: ${charCount};`}>{nameText}</h1>
     <div class="links-grid"> <!-- クラス名を links-list から links-grid へ変更 -->
       {
         links.map((link) => (
@@ -72,4 +74,29 @@ import Bgm from '../layouts/bgm.layout.astro';
   justify-content: center;
   padding: 20px;
 }
+
+.name {
+    font-size: 2rem;
+    overflow: hidden; /* はみ出たテキストを隠す */
+    white-space: nowrap; /* 自動改行を無効化 */
+    border-right: 3px solid #414170; /* カーソル線 */
+    width: 0;
+    
+    /* アニメーション指定 */
+    animation: 
+      typing 1.0s steps(var(--char-count)) forwards,
+      blink-cursor 1.0s step-end infinite;
+  }
+
+  /* テキストを徐々に広げる */
+  @keyframes typing {
+    from { width: 0; }
+    to { width: calc(var(--char-count) * 1ch); } /* 1ch = 1文字の幅 */
+  }
+
+  /* カーソルを点滅させる */
+  @keyframes blink-cursor {
+    from, to { border-color: transparent; }
+    50% { border-color: #414170; }
+  }
 </style>
