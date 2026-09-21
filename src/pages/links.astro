@@ -1,13 +1,14 @@
 ---
 import Layout from '../layouts/Layout.astro';
 
+// 1. message プロパティを追加
 const links = [
-  { name: "あみーご", avatar: "/images/tatsuya.jpg", url: "https://t.co/vRRShQO5Zw" },
-  { name: "lanips", avatar: "/images/lani.jpg", url: "https://t.co/KbUPsJWsuo" }, 
-  { name: "鯛", avatar: "/images/tai.jpg", url: "https://t.co/bkpzdhYoNP" }, 
-  { name: "かき", avatar: "/images/kaki.jpg", url: "https://t.co/bW8N6vbzTB" }, 
-  { name: "しー", avatar: "/images/sii.jpg", url: "https://t.co/WQr7NRr3rS" }, 
-  { name: "水胆", avatar: "/images/mizu2.jpeg", url: "https://t.co/mz2Lg1DxzD" }, 
+  { name: "あみーご", avatar: "/images/tatsuya.jpg", url: "https://t.co/vRRShQO5Zw", message: "イラストの色使い好きだ～～" },
+  { name: "lanips", avatar: "/images/lani.jpg", url: "https://t.co/KbUPsJWsuo", message: "作曲すごい、いつか曲を聴いてみたい" }, 
+  { name: "鯛", avatar: "/images/tai.jpg", url: "https://t.co/bkpzdhYoNP", message: "エンペラーペンギンでっか！写真がたくさん" }, 
+  { name: "かき", avatar: "/images/kaki.jpg", url: "https://t.co/bW8N6vbzTB", message: "黄色と水色の配色がかわいい！！" }, 
+  { name: "しー", avatar: "/images/sii.jpg", url: "https://t.co/WQr7NRr3rS", message: "おしゃれで見やすい！ダーツが楽しい" }, 
+  { name: "水胆", avatar: "/images/mizu2.jpeg", url: "https://t.co/mz2Lg1DxzD", message: "唯一無二の世界観がとても好き…" }, 
 ];
 import Bgm from '../layouts/bgm.layout.astro';
 const nameText = "Links";
@@ -29,7 +30,11 @@ const nameText = "Links";
               alt={link.name}
               class="profile-img"
             />
-            <span class="profile-name">{link.name}</span>
+            {/* 2. 名前とメッセージを右側に並べるためdivで囲む */}
+            <div class="profile-info">
+              <span class="profile-name">{link.name}</span>
+              <p class="profile-message">{link.message}</p>
+            </div>
           </a>
         ))
       }
@@ -43,7 +48,6 @@ const nameText = "Links";
     const elements = document.querySelectorAll<HTMLElement>('.name');
 
     elements.forEach((el) => {
-      // 既にセットアップ済みなら処理しない（2重実行防止）
       if (el.dataset.typewriterSetup === 'true') return;
       el.dataset.typewriterSetup = 'true';
 
@@ -54,7 +58,7 @@ const nameText = "Links";
       if (!textEl) return;
 
       let index = 0;
-      textEl.textContent = ''; // 一度空にする
+      textEl.textContent = '';
 
       function type() {
         if (index < text.length) {
@@ -68,35 +72,46 @@ const nameText = "Links";
     });
   }
 
-  // ① 直アクセス・リロード時用に直接実行
   initTypewriter();
-
-  // ② ページ遷移（View Transitions）時用にイベント登録
   document.addEventListener('astro:page-load', initTypewriter);
 </script>
-
 <style>
 /* プロフィール画像 */
 .profile-img {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   border-radius: 50%;
   object-fit: cover;
+  flex-shrink: 0; /* 横並び時に画像が潰れるのを防ぐ */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
-/* リンク全体のカードレイアウト */
-.link-item {
+/* 3. 画像の右側に並べるテキストエリア */
+.profile-info {
   display: flex;
   flex-direction: column;
+  gap: 4px;
+}
+
+/* リンク全体のカードレイアウト（横並び） */
+.link-item {
+  display: flex;
+  flex-direction: row;
   align-items: center;
-  gap: 7px;
+  gap: 14px;
+  padding: 12px;
+  border-radius: 12px;
   text-decoration: none;
   color: #414170;
+  background: rgba(252, 250, 255, 0.24);
+  border: 1.5px solid transparent; /* 初期状態は透明な枠線 */
+  transition: all 0.2s ease; /* なめらかに変化させる */
 } 
 
 .link-item:hover {
-  color: #317297;
+  color: #414270;
+  background: rgba(30, 147, 243, 0.16);
+  border-color: rgba(30, 122, 243, 0.24); /* ホバー時の枠線色 */
 }
 
 /* 名前のテキスト用スタイル */
@@ -105,10 +120,18 @@ const nameText = "Links";
   font-size: 1.0em;
 }
 
+/* メッセージ用スタイル */
+.profile-message {
+  font-size: 0.85em;
+  margin: 0;
+  opacity: 0.85;
+  line-height: 1.3;
+}
+
 /* 全体のグリッドレイアウト */
 .links-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: 20px;
   justify-content: center;
   padding: 20px;
