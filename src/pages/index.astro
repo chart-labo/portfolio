@@ -2,6 +2,8 @@
 import { ClientRouter } from 'astro:transitions';
 const { title = "チャートのホームページ" } = Astro.props;
 import Bgm from '../layouts/bgm.layout.astro';
+
+const welcomeText = "-Welcome to Chart's homepage-";
 ---
 <Bgm/>
 <!DOCTYPE html>
@@ -41,32 +43,34 @@ import Bgm from '../layouts/bgm.layout.astro';
 		<div class="content-frame top-frame">
 			<div class="start">
 				<h1> ⋆⭒˚｡ Explore Chart's orbit ⋆⭒˚｡ </h1>
-				<p>-Welcome to Chart's homepage-</p>
+				<p class="welcome-text" data-text={welcomeText} data-speed="150">
+					<span class="text"></span><span class="cursor">_</span>
+				</p>
 			</div>
 		</div>
 
-　<div class="content-frame middle-frame">
-    <img src="/images/hosizora.png" alt="プロフィール写真" class="profile-img" />
-    <div class="yokonarabi">
-     <h2>チャート</h2>
-     <p>電気通信大学Ⅲ類26生</p>
-     <p>ハンネの由来は某数学参考書です。</p>
-     <p>アイコン青いな→青…?→チャート！！という流れでこのハンネに辿り着きました。お気に入りです◔.̮◔✧</p>
-　　 <div class="social-links">
-   　  <a href="https://x.com/_chart_2525_" target="_blank" rel="noopener noreferrer">
-       Twitter (X)
-   　  </a>
-      <a href="/about">About</a>
-  　 </div>
-    </div>
-　</div>
+		<div class="content-frame middle-frame">
+			<img src="/images/hosizora.png" alt="プロフィール写真" class="profile-img" />
+			<div class="yokonarabi">
+				<h2>チャート</h2>
+				<p>電気通信大学Ⅲ類26生</p>
+				<p>ハンネの由来は某数学参考書です。</p>
+				<p>アイコン青いな→青…?→チャート！！という流れでこのハンネに辿り着きました。お気に入りです◔.̮◔✧</p>
+				<div class="social-links">
+					<a href="https://x.com/_chart_2525_" target="_blank" rel="noopener noreferrer">
+						Twitter (X)
+					</a>
+					<a href="/about">About</a>
+				</div>
+			</div>
+		</div>
 
 		<!-- 2つ目の白い半透明の枠 -->
 		<div class="content-frame bottom-frame">
 			<div class="moon-card">
 				<span class="icon" id="moon-icon">🌑</span>
-				<h2>今夜の月は…<span id="moon-name">...</span></h2>
-				<p id="moon-text">読み込み中...</p>
+				<h2>今夜の月は…<span id="moon-name"><span class="text"></span><span class="cursor">_</span></span></h2>
+				<p id="moon-text"><span class="text"></span><span class="cursor">_</span></p>
 			</div>
 
 			<slot />
@@ -105,38 +109,117 @@ import Bgm from '../layouts/bgm.layout.astro';
       return phase < 0 ? phase + 1 : phase;
     }
 
-function getMoonData(p: number) {
-  if (p < 0.03 || p >= 0.97) return { name: '新月', icon: '🌑', text: '今日は新月です' };
-  if (p < 0.22) return { name: '三日月！', icon: '🌒', text: '綺麗な三日月です' };
-  if (p < 0.28) return { name: '上弦の月！', icon: '🌓', text: '今日は上弦の月！' };
-  if (p < 0.47) return { name: '十三夜！', icon: '🌔', text: 'もう少しで満月！' };
-  if (p < 0.53) return { name: '満月！', icon: '🌕', text: '今日は満月です！' };
-  if (p < 0.57) return { name: '十六夜！', icon: '🌖', text: '少しずつ欠けていきます' };
-  if (p < 0.62) return { name: '立待月！', icon: '🌖', text: '「立って待つほど愛おしい月」です' };
-  if (p < 0.67) return { name: '居待月！', icon: '🌖', text: '満月を過ぎて、少し落ち着いた輝きの月です' };
-  if (p < 0.72) return { name: '寝待月！', icon: '🌖', text: '月の出が夜遅いので、「寝て待つ月」です' };
-  if (p < 0.78) return { name: '下弦の月！', icon: '🌗', text: '今日は下弦の月！' };
-  return { name: '有明の月！', icon: '🌘', text: '新月に近づいています' };
-}
+    function getMoonData(p: number) {
+      if (p < 0.03 || p >= 0.97) return { name: '新月', icon: '🌑', text: '今日は新月です' };
+      if (p < 0.22) return { name: '三日月！', icon: '🌒', text: '綺麗な三日月です' };
+      if (p < 0.28) return { name: '上弦の月！', icon: '🌓', text: '今日は上弦の月！' };
+      if (p < 0.47) return { name: '十三夜！', icon: '🌔', text: 'もう少しで満月！' };
+      if (p < 0.53) return { name: '満月！', icon: '🌕', text: '今日は満月です！' };
+      if (p < 0.57) return { name: '十六夜！', icon: '🌖', text: '少しずつ欠けていきます' };
+      if (p < 0.62) return { name: '立待月！', icon: '🌖', text: '「立って待つほど愛おしい月」です' };
+      if (p < 0.67) return { name: '居待月！', icon: '🌖', text: '満月を過ぎて、少し落ち着いた輝きの月です' };
+      if (p < 0.72) return { name: '寝待月！', icon: '🌖', text: '月の出が夜遅いので、「寝て待つ月」です' };
+      if (p < 0.78) return { name: '下弦の月！', icon: '🌗', text: '今日は下弦の月！' };
+      return { name: '有明の月！', icon: '🌘', text: '新月に近づいています' };
+    }
     const phase = getMoonPhase();
     const moon = getMoonData(phase);
 
     const iconEl = document.getElementById('moon-icon');
-    const nameEl = document.getElementById('moon-name');
-    const textEl = document.getElementById('moon-text');
+    const nameTextEl = document.querySelector('#moon-name .text');
+    const nameCursorEl = document.querySelector('#moon-name .cursor') as HTMLElement;
+    const bodyTextEl = document.querySelector('#moon-text .text');
+    const bodyCursorEl = document.querySelector('#moon-text .cursor') as HTMLElement;
+    const moonCard = document.querySelector('.moon-card');
 
     if (iconEl) iconEl.textContent = moon.icon;
-    if (nameEl) nameEl.textContent = moon.name;
-    if (textEl) textEl.textContent = moon.text;
+
+    if (nameTextEl && bodyTextEl && moonCard) {
+      nameTextEl.textContent = '';
+      bodyTextEl.textContent = '';
+      if (bodyCursorEl) bodyCursorEl.style.display = 'none';
+
+      let isStarted = false;
+
+      // タイピング処理の本体
+      function startTyping() {
+        if (isStarted) return;
+        isStarted = true;
+
+        let i = 0;
+        function typeName() {
+          if (i < moon.name.length) {
+            nameTextEl.textContent += moon.name.charAt(i);
+            i++;
+            setTimeout(typeName, 150);
+          } else {
+            if (nameCursorEl) nameCursorEl.style.display = 'none';
+            if (bodyCursorEl) bodyCursorEl.style.display = 'inline-block';
+
+            let j = 0;
+            function typeText() {
+              if (j < moon.text.length) {
+                bodyTextEl.textContent += moon.text.charAt(j);
+                j++;
+                setTimeout(typeText, 150);
+              }
+            }
+            typeText();
+          }
+        }
+        typeName();
+      }
+
+      // ★ 画面内にカードが入ったらタイピングを開始するオブザーバー
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            startTyping();
+            observer.unobserve(entry.target); // 一度発火したら監視を解除
+          }
+        });
+      }, {
+        threshold: 0.3 // 要素が画面内に 30% 見えたら発火
+      });
+
+      observer.observe(moonCard);
+    }
+  }
+
+  function setupTypewriter() {
+    const elements = document.querySelectorAll<HTMLElement>('.welcome-text');
+
+    elements.forEach((el) => {
+      const text = el.dataset.text || '';
+      const speed = parseInt(el.dataset.speed || '150', 10);
+      const textEl = el.querySelector('.text');
+
+      if (!textEl) return;
+
+      let index = 0;
+      textEl.textContent = '';
+
+      function type() {
+        if (index < text.length) {
+          textEl.textContent += text.charAt(index);
+          index++;
+          setTimeout(type, speed);
+        }
+      }
+
+      type();
+    });
   }
 
   document.addEventListener('astro:page-load', () => {
     setupOpening();
     setupMoon();
+    setupTypewriter();
   });
 
   setupOpening();
   setupMoon();
+  setupTypewriter();
 </script>
 
 <style>
@@ -283,7 +366,6 @@ function getMoonData(p: number) {
     color: #245fac;
   }
 
-  /* .content-frame (元のmainスタイルを継承) */
   .content-frame {
     background-color: rgba(255, 255, 255, 0.80);
     color: #414170;
@@ -292,32 +374,39 @@ function getMoonData(p: number) {
     padding: 1.2rem;
     margin-top: 1.5rem;
   }
-  .content-frame h2 {
-  font-size: 1.25rem;
-  margin-bottom: 0.4rem;
- }
- .content-frame p {
-   font-size: 0.85rem;
-   line-height: 1.6;
- }
 
-  .top-frame {
-    margin-bottom: 2rem; /* 枠の間の余白 */
+  .content-frame h2 {
+    font-size: 1.25rem;
+    margin-bottom: 0.4rem;
   }
 
-  /* .start (元の青い半透明枠スタイルを削除) */
+  .content-frame p {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .top-frame {
+    margin-bottom: 2rem;
+  }
+
   .start {
-    /* 削除: background-color: rgba(214, 228, 255, 0.8); */
     color: #414170;
-    /* 削除: border-radius: 12px; */
-    /* 削除: box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08); */
-    /* 削除: padding: 2rem; */
-    /* 削除: margin-top: 1.5rem; */
     text-align: center;
     margin-bottom: 2.5rem;
   }
 
-  /* .moon-card スタイル追加 (元のコードになかった) */
+  .cursor {
+    display: inline-block;
+    margin-left: 2px;
+    color: #414170;
+    animation: blink 0.8s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
   .moon-card {
     display: flex;
     flex-direction: column;
@@ -325,10 +414,9 @@ function getMoonData(p: number) {
     margin-bottom: 2rem;
   }
 
-
   .moon-card .icon {
     font-size: 2rem;
-    image-rendering: pixelated; /* 月の絵文字をドット絵風に */
+    image-rendering: pixelated;
   }
 
   footer {
@@ -338,22 +426,22 @@ function getMoonData(p: number) {
     color: #888;
   }
 
-  
-	.profile-img {
-		width: 80px;
-		height: 80px;
-		border-radius: 50%;
-		object-fit: cover;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-	  flex-shrink: 0;
+  .profile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    flex-shrink: 0;
   }
-	.social-links {
+
+  .social-links {
     display: flex;
     gap: 0.75rem;
     margin-top: 0.5rem;
-}
+  }
 
-.social-links a {
+  .social-links a {
     padding: 0.3rem 0.7rem;
     border: 1px solid #449be2;
     border-radius: 999px;
@@ -363,55 +451,51 @@ function getMoonData(p: number) {
     transition:
         background-color 0.2s ease,
         color 0.2s ease;
-}
+  }
 
-.social-links a:hover {
+  .social-links a:hover {
     background-color: #4a90d9;
     color: #fff;
-}
-
-.yokonarabi {
-  min-width: 0;
-  word-break: break-word;
-}
-
-.middle-frame {
-		display: flex;
-		align-items: center; /* 上下中央揃え */
-		gap: 1rem;          /* 画像とテキストの間隔 */
-		margin-bottom: 2rem;
-	}
-@media (min-width: 600px) {
-  .content-frame {
-    padding: 2rem; /* 元のゆったりした余白に戻す */
   }
-  .profile-img {
-    width: 120px;  /* 元の120pxに戻す */
-    height: 120px;
+
+  .yokonarabi {
+    min-width: 0;
+    word-break: break-word;
   }
+
   .middle-frame {
-    gap: 1.0rem;   /* 元の間隔に戻す */
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
   }
-  .social-links {
-    gap: 0.75rem;
-  }
-  .social-links a {
-    padding: 0.4rem 1rem; /* 元のボタンサイズに戻す */
-    font-size: 0.9rem;
-  }
-  body {
-    font-size: 16px;
-  }
-  .content-frame h2 {
-    font-size: 1.5rem;
-  }
-  .content-frame p {
-    font-size: 1rem;
-  }
-  .social-links a {
-    font-size: 0.85rem;
-    padding: 0.4rem 1rem;
-  }
-}
 
+  @media (min-width: 600px) {
+    .content-frame {
+      padding: 2rem;
+    }
+    .profile-img {
+      width: 120px;
+      height: 120px;
+    }
+    .middle-frame {
+      gap: 1.0rem;
+    }
+    .social-links {
+      gap: 0.75rem;
+    }
+    body {
+      font-size: 16px;
+    }
+    .content-frame h2 {
+      font-size: 1.5rem;
+    }
+    .content-frame p {
+      font-size: 1rem;
+    }
+    .social-links a {
+      font-size: 0.85rem;
+      padding: 0.4rem 1rem;
+    }
+  }
 </style>

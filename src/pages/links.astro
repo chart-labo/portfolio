@@ -11,12 +11,15 @@ const links = [
 ];
 import Bgm from '../layouts/bgm.layout.astro';
 const nameText = "Links";
-const charCount = nameText.length;
 ---
 <Bgm/>
 <Layout title="Links">
   <div class="links-card">
-    <h1 class="name" style={`--char-count: ${charCount};`}>{nameText}</h1>
+    {/* JSで1文字ずつ入力するターゲット */}
+    <h1 class="name" data-text={nameText} data-speed="200">
+      <span class="text"></span><span class="cursor">_</span>
+    </h1>
+
     <div class="links-grid">
       {
         links.map((link) => (
@@ -33,6 +36,38 @@ const charCount = nameText.length;
     </div>
   </div>
 </Layout>
+
+{/* タイピング用スクリプト */}
+<script>
+  function initTypewriter() {
+    const elements = document.querySelectorAll<HTMLElement>('.name');
+
+    elements.forEach((el) => {
+      const text = el.dataset.text || '';
+      const speed = parseInt(el.dataset.speed || '100', 10);
+      const textEl = el.querySelector('.text');
+
+      if (!textEl) return;
+
+      let index = 0;
+      textEl.textContent = ''; // 一度空にする
+
+      function type() {
+        if (index < text.length) {
+          textEl.textContent += text.charAt(index);
+          index++;
+          setTimeout(type, speed);
+        }
+      }
+
+      type();
+    });
+  }
+
+  // 通常読込 & View Transitions（ページ遷移）の両方に対応
+  initTypewriter();
+  document.addEventListener('astro:page-load', initTypewriter);
+</script>
 
 <style>
 /* プロフィール画像 */
@@ -73,33 +108,24 @@ const charCount = nameText.length;
   padding: 20px;
 }
 
-/* タイピングアニメーション（アンダーバー _ 仕様） */
+/* タイピング表示ヘッダー */
 .name {
   font-size: 2rem;
-  overflow: hidden; /* はみ出たテキストを隠す */
-  white-space: nowrap; /* 自動改行を無効化 */
-  width: 0;
-  
-  /* 幅を広げるアニメーション */
-  animation: typing 1.0s steps(var(--char-count)) forwards;
+  color: #414170;
+  margin-top: 0;
+  margin-bottom: 1.2rem;
 }
 
-/* 文字の後ろに _ カーソルを追加 */
-.name::after {
-  content: "_";
-  color: #414170; /* 文字と同じ色 */
-  animation: blink-cursor 1.0s step-end infinite;
+/* アンダーバー _ カーソルの点滅 */
+.cursor {
+  display: inline-block;
+  margin-left: 2px;
+  color: #414170;
+  animation: blink 0.8s infinite;
 }
 
-/* テキストを徐々に広げる */
-@keyframes typing {
-  from { width: 0; }
-  to { width: calc(var(--char-count) * 1ch); }
-}
-
-/* アンダーバー _ を点滅させる */
-@keyframes blink-cursor {
-  from, to { opacity: 0; }
-  50% { opacity: 1; }
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 </style>

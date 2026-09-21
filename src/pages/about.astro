@@ -1,12 +1,18 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Bgm from '../layouts/bgm.layout.astro';
+
+const nameText = "チャート";
 ---
 <Bgm/>
 <Layout title="About | チャートのホームページ">
   <div class="profile-header">
     <img src="/images/hosizora.png" alt="プロフィール写真" class="profile-img" />
-    <h1 class="profile-name">チャート</h1>
+    
+    {/* JSで1文字ずつ表示する h1 */}
+    <h1 class="profile-name" data-text={nameText} data-speed="200">
+      <span class="text"></span><span class="cursor">_</span>
+    </h1>
   </div>
 
   <table>
@@ -28,50 +34,73 @@ import Bgm from '../layouts/bgm.layout.astro';
     </tr>
   </table>
 
-  
 </Layout>
 
+{/* タイピング用スクリプト */}
+<script>
+  function initTypewriter() {
+    const elements = document.querySelectorAll<HTMLElement>('.profile-name');
+
+    elements.forEach((el) => {
+      const text = el.dataset.text || '';
+      const speed = parseInt(el.dataset.speed || '200', 10);
+      const textEl = el.querySelector('.text');
+
+      if (!textEl) return;
+
+      let index = 0;
+      textEl.textContent = '';
+
+      function type() {
+        if (index < text.length) {
+          textEl.textContent += text.charAt(index);
+          index++;
+          setTimeout(type, speed);
+        }
+      }
+
+      type();
+    });
+  }
+
+  // 初期読み込み＆ページ遷移時の両方で再実行
+  initTypewriter();
+  document.addEventListener('astro:page-load', initTypewriter);
+</script>
+
 <style>
+.profile-header {
+	display: flex;
+	align-items: center; /* 上下中央揃え */
+	gap: 1.5rem;          /* 画像とテキストの間隔 */
+	margin-bottom: 2rem;
+}
+
+.profile-img {
+	width: 120px;
+	height: 120px;
+	border-radius: 50%;
+	object-fit: cover;
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
 .profile-name {
 	font-size: 2.2rem;
 	font-weight: bold;
 	margin: 0;
+	color: #414170;
+}
 
-	/* --- タイピング風アニメーションの設定 --- */
+/* アンダーバー _ カーソルの点滅 */
+.cursor {
 	display: inline-block;
-	overflow: hidden;           /* はみ出た文字を隠す */
-	white-space: nowrap;        /* 改行を防ぐ */
-	border-right: 3px solid #414170; /* カーソルの縦線 */
-	width: 0;                   /* 最初は文字数をゼロにする */
-	
-	animation: 
-		typing 1.0s steps(4) forwards, /* 4文字分を順番に表示 */
-		blink 1.0s infinite;            /* カーソルの点滅 */
+	margin-left: 2px;
+	color: #414170;
+	animation: blink 0.8s infinite;
 }
 
-/* 文字が伸びていくアニメーション */
-@keyframes typing {
-	from { width: 0; }
-	to { width: 4.7em; } /* 文字が収まる幅（全角4文字分＋α） */
-}
-
-/* カーソル（縦線）が点滅するアニメーション */
 @keyframes blink {
-	from, to { border-color: transparent; }
-	50% { border-color: #414170; }
+	0%, 100% { opacity: 1; }
+	50% { opacity: 0; }
 }
-
-.profile-header {
-		display: flex;
-		align-items: center; /* 上下中央揃え */
-		gap: 1.5rem;          /* 画像とテキストの間隔 */
-		margin-bottom: 2rem;
-	}
-	.profile-img {
-		width: 120px;
-		height: 120px;
-		border-radius: 50%;
-		object-fit: cover;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-	}
 </style>

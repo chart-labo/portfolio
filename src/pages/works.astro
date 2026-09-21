@@ -3,11 +3,14 @@ import Layout from '../layouts/Layout.astro';
 import Bgm from '../layouts/bgm.layout.astro';
 
 const nameText = "Works";
-const charCount = nameText.length;
 ---
 <Bgm/>
 <Layout title="Works | チャートのホームページ">
-	<h1 class="works" style={`--char-count: ${charCount};`}>{nameText}</h1>
+	{/* JSで1文字ずつ表示する h1 */}
+	<h1 class="works" data-text={nameText} data-speed="200">
+		<span class="text"></span><span class="cursor">_</span>
+	</h1>
+
 	<ul>
 		<li>
 			<strong>このホームページ</strong> — Astroで作りました
@@ -16,8 +19,40 @@ const charCount = nameText.length;
             
 		</li>
 	</ul>
-    
 </Layout>
+
+{/* タイピング用スクリプト */}
+<script>
+  function initTypewriter() {
+    const elements = document.querySelectorAll<HTMLElement>('.works');
+
+    elements.forEach((el) => {
+      const text = el.dataset.text || '';
+      const speed = parseInt(el.dataset.speed || '200', 10);
+      const textEl = el.querySelector('.text');
+
+      if (!textEl) return;
+
+      let index = 0;
+      textEl.textContent = '';
+
+      function type() {
+        if (index < text.length) {
+          textEl.textContent += text.charAt(index);
+          index++;
+          setTimeout(type, speed);
+        }
+      }
+
+      type();
+    });
+  }
+
+  // 初期読み込み＆ページ遷移時の両方で再実行
+  initTypewriter();
+  document.addEventListener('astro:page-load', initTypewriter);
+</script>
+
 <style>
 	.video-wrapper iframe {
 		width: 100%;
@@ -26,28 +61,24 @@ const charCount = nameText.length;
 		border: none;
 	}
 	
-.works {
-    font-size: 2rem;
-    overflow: hidden; /* はみ出たテキストを隠す */
-    white-space: nowrap; /* 自動改行を無効化 */
-    border-right: 3px solid #414170; /* カーソル線 */
-    width: 0;
-    
-    /* アニメーション指定 */
-    animation: 
-      typing 1.0s steps(var(--char-count)) forwards,
-      blink-cursor 1.0s step-end infinite;
-  }
+	/* タイピング表示ヘッダー */
+	.works {
+		font-size: 2rem;
+		color: #414170;
+		margin-top: 0;
+		margin-bottom: 1.2rem;
+	}
 
-  /* テキストを徐々に広げる */
-  @keyframes typing {
-    from { width: 0; }
-    to { width: calc(var(--char-count) * 1ch); } /* 1ch = 1文字の幅 */
-  }
+	/* アンダーバー _ カーソルの点滅 */
+	.cursor {
+		display: inline-block;
+		margin-left: 2px;
+		color: #414170;
+		animation: blink 0.8s infinite;
+	}
 
-  /* カーソルを点滅させる */
-  @keyframes blink-cursor {
-    from, to { border-color: transparent; }
-    50% { border-color: #414170; }
-  }
+	@keyframes blink {
+		0%, 100% { opacity: 1; }
+		50% { opacity: 0; }
+	}
 </style>
