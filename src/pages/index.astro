@@ -101,6 +101,13 @@ const welcomeText = "-Welcome to Chart's homepage-";
   }
 
   function setupMoon() {
+    const moonCard = document.querySelector('.moon-card') as HTMLElement;
+    if (!moonCard) return;
+
+    // 二重実行防止（既にセットアップ済みなら処理しない）
+    if (moonCard.dataset.moonSetup === 'true') return;
+    moonCard.dataset.moonSetup = 'true';
+
     function getMoonPhase(date = new Date()) {
       const cycle = 29.5305882;
       const knownNewMoon = new Date('2000-01-06T18:14:00Z');
@@ -130,18 +137,16 @@ const welcomeText = "-Welcome to Chart's homepage-";
     const nameCursorEl = document.querySelector('#moon-name .cursor') as HTMLElement;
     const bodyTextEl = document.querySelector('#moon-text .text');
     const bodyCursorEl = document.querySelector('#moon-text .cursor') as HTMLElement;
-    const moonCard = document.querySelector('.moon-card');
 
     if (iconEl) iconEl.textContent = moon.icon;
 
-    if (nameTextEl && bodyTextEl && moonCard) {
+    if (nameTextEl && bodyTextEl) {
       nameTextEl.textContent = '';
       bodyTextEl.textContent = '';
       if (bodyCursorEl) bodyCursorEl.style.display = 'none';
 
       let isStarted = false;
 
-      // タイピング処理の本体
       function startTyping() {
         if (isStarted) return;
         isStarted = true;
@@ -149,7 +154,7 @@ const welcomeText = "-Welcome to Chart's homepage-";
         let i = 0;
         function typeName() {
           if (i < moon.name.length) {
-            nameTextEl.textContent += moon.name.charAt(i);
+            nameTextEl!.textContent += moon.name.charAt(i);
             i++;
             setTimeout(typeName, 150);
           } else {
@@ -159,7 +164,7 @@ const welcomeText = "-Welcome to Chart's homepage-";
             let j = 0;
             function typeText() {
               if (j < moon.text.length) {
-                bodyTextEl.textContent += moon.text.charAt(j);
+                bodyTextEl!.textContent += moon.text.charAt(j);
                 j++;
                 setTimeout(typeText, 150);
               }
@@ -170,16 +175,15 @@ const welcomeText = "-Welcome to Chart's homepage-";
         typeName();
       }
 
-      // ★ 画面内にカードが入ったらタイピングを開始するオブザーバー
       const observer = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
             startTyping();
-            observer.unobserve(entry.target); // 一度発火したら監視を解除
+            observer.unobserve(entry.target);
           }
         });
       }, {
-        threshold: 0.3 // 要素が画面内に 30% 見えたら発火
+        threshold: 0.3
       });
 
       observer.observe(moonCard);
@@ -190,6 +194,9 @@ const welcomeText = "-Welcome to Chart's homepage-";
     const elements = document.querySelectorAll<HTMLElement>('.welcome-text');
 
     elements.forEach((el) => {
+      if (el.dataset.typewriterSetup === 'true') return;
+      el.dataset.typewriterSetup = 'true';
+
       const text = el.dataset.text || '';
       const speed = parseInt(el.dataset.speed || '150', 10);
       const textEl = el.querySelector('.text');
@@ -201,7 +208,7 @@ const welcomeText = "-Welcome to Chart's homepage-";
 
       function type() {
         if (index < text.length) {
-          textEl.textContent += text.charAt(index);
+          textEl!.textContent += text.charAt(index);
           index++;
           setTimeout(type, speed);
         }
@@ -211,15 +218,12 @@ const welcomeText = "-Welcome to Chart's homepage-";
     });
   }
 
+  // Astroのページ遷移イベントにのみ登録（直下の単体実行は削除）
   document.addEventListener('astro:page-load', () => {
     setupOpening();
     setupMoon();
     setupTypewriter();
   });
-
-  setupOpening();
-  setupMoon();
-  setupTypewriter();
 </script>
 
 <style>

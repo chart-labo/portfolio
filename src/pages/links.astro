@@ -43,6 +43,10 @@ const nameText = "Links";
     const elements = document.querySelectorAll<HTMLElement>('.name');
 
     elements.forEach((el) => {
+      // ★ 二重実行防止ストッパー
+      if (el.dataset.typewriterSetup === 'true') return;
+      el.dataset.typewriterSetup = 'true';
+
       const text = el.dataset.text || '';
       const speed = parseInt(el.dataset.speed || '100', 10);
       const textEl = el.querySelector('.text');
@@ -54,7 +58,7 @@ const nameText = "Links";
 
       function type() {
         if (index < text.length) {
-          textEl.textContent += text.charAt(index);
+          textEl!.textContent += text.charAt(index);
           index++;
           setTimeout(type, speed);
         }
@@ -64,8 +68,7 @@ const nameText = "Links";
     });
   }
 
-  // 通常読込 & View Transitions（ページ遷移）の両方に対応
-  initTypewriter();
+  // ★ 直呼び出しを削除し、astro:page-load イベントのみに統一
   document.addEventListener('astro:page-load', initTypewriter);
 </script>
 

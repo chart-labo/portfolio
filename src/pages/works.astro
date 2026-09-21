@@ -16,7 +16,7 @@ const nameText = "Works";
 			<strong>このホームページ</strong> — Astroで作りました
 		</li>
 		<li>
-            
+			
 		</li>
 	</ul>
 </Layout>
@@ -27,6 +27,10 @@ const nameText = "Works";
     const elements = document.querySelectorAll<HTMLElement>('.works');
 
     elements.forEach((el) => {
+      // ★ 二重実行防止ストッパー
+      if (el.dataset.typewriterSetup === 'true') return;
+      el.dataset.typewriterSetup = 'true';
+
       const text = el.dataset.text || '';
       const speed = parseInt(el.dataset.speed || '200', 10);
       const textEl = el.querySelector('.text');
@@ -38,7 +42,7 @@ const nameText = "Works";
 
       function type() {
         if (index < text.length) {
-          textEl.textContent += text.charAt(index);
+          textEl!.textContent += text.charAt(index);
           index++;
           setTimeout(type, speed);
         }
@@ -48,8 +52,7 @@ const nameText = "Works";
     });
   }
 
-  // 初期読み込み＆ページ遷移時の両方で再実行
-  initTypewriter();
+  // ★ 直呼び出しを削除し、astro:page-load イベントのみに統一
   document.addEventListener('astro:page-load', initTypewriter);
 </script>
 
