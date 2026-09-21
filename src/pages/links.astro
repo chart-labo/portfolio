@@ -17,17 +17,16 @@ const charCount = nameText.length;
 <Layout title="Links">
   <div class="links-card">
     <h1 class="name" style={`--char-count: ${charCount};`}>{nameText}</h1>
-    <div class="links-grid"> <!-- クラス名を links-list から links-grid へ変更 -->
+    <div class="links-grid">
       {
         links.map((link) => (
-          // これが重要！ <a> タグ全体を 1つの「カード」として扱います
           <a href={link.url} target="_blank" rel="noopener noreferrer" class="link-item">
             <img
               src={link.avatar}
-              alt={link.name} // genericな文字ではなく、名前を入れます
-              class="profile-img" // クラス名を指定します
+              alt={link.name}
+              class="profile-img"
             />
-            <span class="profile-name">{link.name}</span> <!-- これを追加！ -->
+            <span class="profile-name">{link.name}</span>
           </a>
         ))
       }
@@ -68,35 +67,39 @@ const charCount = nameText.length;
 /* 全体のグリッドレイアウト */
 .links-grid {
   display: grid;
-  /* 画像サイズ(100px)に合わせて最小幅を 100px〜120px に調整すると綺麗に並びます */
   grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
   gap: 20px;
   justify-content: center;
   padding: 20px;
 }
 
+/* タイピングアニメーション（アンダーバー _ 仕様） */
 .name {
-    font-size: 2rem;
-    overflow: hidden; /* はみ出たテキストを隠す */
-    white-space: nowrap; /* 自動改行を無効化 */
-    border-right: 3px solid #414170; /* カーソル線 */
-    width: 0;
-    
-    /* アニメーション指定 */
-    animation: 
-      typing 1.0s steps(var(--char-count)) forwards,
-      blink-cursor 1.0s step-end infinite;
-  }
+  font-size: 2rem;
+  overflow: hidden; /* はみ出たテキストを隠す */
+  white-space: nowrap; /* 自動改行を無効化 */
+  width: 0;
+  
+  /* 幅を広げるアニメーション */
+  animation: typing 1.0s steps(var(--char-count)) forwards;
+}
 
-  /* テキストを徐々に広げる */
-  @keyframes typing {
-    from { width: 0; }
-    to { width: calc(var(--char-count) * 1ch); } /* 1ch = 1文字の幅 */
-  }
+/* 文字の後ろに _ カーソルを追加 */
+.name::after {
+  content: "_";
+  color: #414170; /* 文字と同じ色 */
+  animation: blink-cursor 1.0s step-end infinite;
+}
 
-  /* カーソルを点滅させる */
-  @keyframes blink-cursor {
-    from, to { border-color: transparent; }
-    50% { border-color: #414170; }
-  }
+/* テキストを徐々に広げる */
+@keyframes typing {
+  from { width: 0; }
+  to { width: calc(var(--char-count) * 1ch); }
+}
+
+/* アンダーバー _ を点滅させる */
+@keyframes blink-cursor {
+  from, to { opacity: 0; }
+  50% { opacity: 1; }
+}
 </style>
