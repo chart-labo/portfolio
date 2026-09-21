@@ -34,6 +34,11 @@ const nameText = "チャート";
     </tr>
   </table>
 
+        <div class="social-links">
+					<a href="https://x.com/_chart_2525_" target="_blank" rel="noopener noreferrer">
+						Twitter (X)
+					</a>
+				</div>
 </Layout>
 
 {/* タイピング用スクリプト */}
@@ -107,4 +112,28 @@ const nameText = "チャート";
 	0%, 100% { opacity: 1; }
 	50% { opacity: 0; }
 }
+
+
+  .social-links {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+
+  .social-links a {
+    padding: 0.3rem 0.7rem;
+    border: 1px solid #449be2;
+    border-radius: 999px;
+    color: #449be2;
+    text-decoration: none;
+    font-size: 0.75rem;
+    transition:
+        background-color 0.2s ease,
+        color 0.2s ease;
+  }
+
+  .social-links a:hover {
+    background-color: #4a90d9;
+    color: #fff;
+  }
 </style>
