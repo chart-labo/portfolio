@@ -68,6 +68,7 @@ const nameText = "チャート";
   }
 
   // ★ 単体での直呼び出しを削除し、astro:page-load イベントのみに統一
+  initTypewriter();
   document.addEventListener('astro:page-load', initTypewriter);
 </script>
 

@@ -27,7 +27,7 @@ const nameText = "Works";
     const elements = document.querySelectorAll<HTMLElement>('.works');
 
     elements.forEach((el) => {
-      // ★ 二重実行防止ストッパー
+      // 既にセットアップ済みなら処理しない（2重実行防止）
       if (el.dataset.typewriterSetup === 'true') return;
       el.dataset.typewriterSetup = 'true';
 
@@ -52,7 +52,10 @@ const nameText = "Works";
     });
   }
 
-  // ★ 直呼び出しを削除し、astro:page-load イベントのみに統一
+  // ① 直アクセス・リロード時用に直接実行
+  initTypewriter();
+
+  // ② ページ遷移（View Transitions）時用にイベント登録
   document.addEventListener('astro:page-load', initTypewriter);
 </script>
 
